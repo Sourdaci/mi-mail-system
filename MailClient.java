@@ -46,4 +46,10 @@ public class MailClient
             System.out.println("No hay nuevos Mensajes");
         }
     }
+    
+    public void sendMailItem(String para, String mensaje)
+    {
+        MailItem correoNuevo = new MailItem(user, para, mensaje);
+        server.post(correoNuevo);
+    }
 }
