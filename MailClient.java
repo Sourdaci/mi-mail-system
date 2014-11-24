@@ -21,32 +21,40 @@ public class MailClient
     }
 
     /**
-     * An example of a method - replace this comment with your own
-     * 
-     * @param  y   a sample parameter for a method
-     * @return     the sum of x and y 
+     * Devuelve el usuario contenido en el MailClient 
      */
     public String getUserName()
     {
         return user;
     }
     
+    /**
+     * Pide al MailServer configurado que devuelva el siguiente MailItem no leido
+     */
     public MailItem getNextMailItem()
     {
         return server.getNextMailItem(user);
     }
     
+    /**
+     * Pide al MailServer configurado el siguiente MailItem no leido
+     * Si existe, lo muestra por pantalla
+     * Si no existe, informa de ello al usuario
+     */
     public void printNextMailItem()
     {
         MailItem mailTemporal = server.getNextMailItem(user);
         if(mailTemporal != null){
-            System.out.println("Has recibido un mensaje de " + mailTemporal.getFrom());
+            System.out.println("Has recibido un mensaje de: " + mailTemporal.getFrom());
             System.out.println(mailTemporal.getMessage());
         }else{
-            System.out.println("No hay nuevos Mensajes");
+            System.out.println("No hay nuevos Mensajes :(");
         }
     }
     
+    /**
+     * Crea un nuevo mensaje (MailItem) y lo envia al servidor
+     */
     public void sendMailItem(String para, String mensaje)
     {
         MailItem correoNuevo = new MailItem(user, para, mensaje);

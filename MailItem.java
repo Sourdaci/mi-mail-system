@@ -7,8 +7,9 @@
  */
 public class MailItem
 {
-    // instance variables - replace the example below with your own
+    // Contenido del mail
     private String message;
+    // Quien envia el mail y quien lo recibe
     private String from, to;
 
     /**
@@ -22,26 +23,34 @@ public class MailItem
     }
 
     /**
-     * An example of a method - replace this comment with your own
-     * 
-     * @param  y   a sample parameter for a method
-     * @return     the sum of x and y 
+     * Devuelve quien ha creado el mail
      */
     public String getFrom()
     {
         return from;
     }
     
+    /**
+     * Devuelve para quien es el mail
+     */
     public String getTo()
     {
         return to;
     }
     
+    /**
+     * Devuelve el mensaje contenido en el mail
+     */
     public String getMessage()
     {
         return message;
     }
     
+    /**
+     * Imprime por pantalla el mensaje
+     * Usar preferiblemente solo para depuracion de programa
+     * El objeto MailClient tiene su propio formato de impresion de mensaje
+     */
     public void printMailItem()
     {
         System.out.println("Enviado por: " + from);
