@@ -30,4 +30,20 @@ public class MailClient
     {
         return user;
     }
+    
+    public MailItem getNextMailItem()
+    {
+        return server.getNextMailItem(user);
+    }
+    
+    public void printNextMailItem()
+    {
+        MailItem mailTemporal = server.getNextMailItem(user);
+        if(mailTemporal != null){
+            System.out.println("Has recibido un mensaje de " + mailTemporal.getFrom());
+            System.out.println(mailTemporal.getMessage());
+        }else{
+            System.out.println("No hay nuevos Mensajes");
+        }
+    }
 }
