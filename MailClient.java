@@ -45,8 +45,7 @@ public class MailClient
     {
         MailItem mailTemporal = server.getNextMailItem(user);
         if(mailTemporal != null){
-            System.out.println("Has recibido un mensaje de: " + mailTemporal.getFrom());
-            System.out.println(mailTemporal.getMessage());
+            mailTemporal.printMailItem();
         }else{
             System.out.println("No hay nuevos Mensajes :(");
         }

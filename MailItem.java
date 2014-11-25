@@ -48,13 +48,10 @@ public class MailItem
     
     /**
      * Imprime por pantalla el mensaje
-     * Usar preferiblemente solo para depuracion de programa
-     * El objeto MailClient tiene su propio formato de impresion de mensaje
      */
     public void printMailItem()
     {
-        System.out.println("Enviado por: " + from);
-        System.out.println("Enviado a: " + to);
+        System.out.println(from + ", has recibido un mensaje de: " + to);
         System.out.println(message);
     }
 }
