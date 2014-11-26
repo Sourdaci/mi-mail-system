@@ -11,14 +11,17 @@ public class MailItem
     private String message;
     // Quien envia el mail y quien lo recibe
     private String from, to;
+    //Objeto o asunto del mensaje
+    private String subject;
 
     /**
      * Constructor for objects of class MailItem
      */
-    public MailItem(String from, String to, String message)
+    public MailItem(String from, String to, String subject, String message)
     {
        this.from = from;
        this.to = to;
+       this.subject = subject;
        this.message = message;
     }
 
