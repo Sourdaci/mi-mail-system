@@ -67,4 +67,20 @@ public class MailClient
     {
         System.out.println(user + ", tienes " + server.howManyMailItems(user) + " mensajes nuevos");
     }
+    
+    /**
+     * Recibe del servidor el siguiente mensaje (si existe) y responde automaticamente
+     * No devuelve ni imprime el mail recibido
+     */
+    public void getNextMailItemAndAutorespond()
+    {
+        MailItem tempReceived = server.getNextMailItem(user);
+        if (tempReceived != null){
+            String to = tempReceived.getFrom();
+            String subject = "RE: " + tempReceived.getSubject();
+            String message = "Mensaje automatico.\nTardare en responder, estoy de vacaciones.\n\nMensaje que me enviaste:\n" + tempReceived.getMessage();
+            MailItem correoNuevo = new MailItem(user, to, subject, message);
+            server.post(correoNuevo);
+        }
+    }
 }
