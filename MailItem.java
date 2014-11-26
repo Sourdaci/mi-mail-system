@@ -42,6 +42,14 @@ public class MailItem
     }
     
     /**
+     * Devuelve el asunto del mensaje
+     */
+    public String getSubject()
+    {
+        return subject;
+    }
+    
+    /**
      * Devuelve el mensaje contenido en el mail
      */
     public String getMessage()
