@@ -59,4 +59,12 @@ public class MailClient
         MailItem correoNuevo = new MailItem(user, para, asunto, mensaje);
         server.post(correoNuevo);
     }
+    
+    /**
+     * Pregunta al servidor cuantos mails tiene el usuario por leer
+     */
+    public void getUnreadMessages()
+    {
+        System.out.println(user + ", tienes " + server.howManyMailItems(user) + " mensajes nuevos");
+    }
 }
