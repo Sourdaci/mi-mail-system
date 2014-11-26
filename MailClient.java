@@ -54,9 +54,9 @@ public class MailClient
     /**
      * Crea un nuevo mensaje (MailItem) y lo envia al servidor
      */
-    public void sendMailItem(String para, String mensaje)
+    public void sendMailItem(String para, String asunto, String mensaje)
     {
-        MailItem correoNuevo = new MailItem(user, para, mensaje);
+        MailItem correoNuevo = new MailItem(user, para, asunto, mensaje);
         server.post(correoNuevo);
     }
 }
