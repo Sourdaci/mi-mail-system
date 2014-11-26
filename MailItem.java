@@ -55,6 +55,7 @@ public class MailItem
     public void printMailItem()
     {
         System.out.println(from + ", has recibido un mensaje de: " + to);
+        System.out.println("Motivo del mensaje: " + subject);
         System.out.println(message);
     }
 }
