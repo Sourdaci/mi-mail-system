@@ -38,7 +38,11 @@ public class MailClient
     {
         MailItem temp = server.getNextMailItem(user);
         if(temp != null){
-            lastMail = temp;
+            if(!spamSearch(temp)){
+                lastMail = temp;
+            }else{
+                temp = null;
+            }
         }
         return temp;
     }
@@ -52,8 +56,12 @@ public class MailClient
     {
         MailItem mailTemporal = server.getNextMailItem(user);
         if(mailTemporal != null){
-            lastMail = mailTemporal;
-            mailTemporal.printMailItem();
+            if(!spamSearch(mailTemporal)){
+                lastMail = mailTemporal;
+                mailTemporal.printMailItem();
+            }else{
+                System.out.println("Siento comunicarle que este mail contenia spam y se ha descartado");
+            }
         }else{
             System.out.println("No hay nuevos Mensajes :(");
         }
