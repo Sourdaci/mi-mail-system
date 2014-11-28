@@ -119,7 +119,7 @@ public class MailClient
     public void sendMailItem(String para, String asunto, String mensaje)
     {
         MailItem correoNuevo = new MailItem(user, para, asunto, mensaje);
-        server.post(correoNuevo);
+        server.post(correoNuevo, mensaje.length());
         enviados += 1;
     }
     
@@ -127,10 +127,11 @@ public class MailClient
      * Crea un nuevo mensaje y lo envia simulando errores de transmision
      */
     public void sendMailItemWithTransmissionError(String para, String asunto, String mensaje){
+        int longiMens = mensaje.length();
         mensaje = mensaje.replace("a", "#&");
         mensaje = mensaje.replace("e", "$#");
         MailItem correoNuevo = new MailItem(user, para, asunto, mensaje);
-        server.post(correoNuevo);
+        server.post(correoNuevo, longiMens);
         enviados += 1;
     }
     
@@ -155,7 +156,7 @@ public class MailClient
             String subject = "RE: " + tempReceived.getSubject();
             String message = "Mensaje automatico.\nTardare en responder, estoy de vacaciones.\n\nMensaje que me enviaste:\n" + tempReceived.getMessage();
             MailItem correoNuevo = new MailItem(user, to, subject, message);
-            server.post(correoNuevo);
+            server.post(correoNuevo, message.length());
             recibidos += 1;
             String cad = tempReceived.getMessage();
             if(cad.length() > longCadena){
