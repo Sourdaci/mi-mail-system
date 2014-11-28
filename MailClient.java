@@ -103,4 +103,20 @@ public class MailClient
             server.post(correoNuevo);
         }
     }
+    
+    /**
+     * Busca palabras clave para detectar si el MailItem es spam o no
+     * Si tiene "oferta" o "viagra", es spam
+     * Si tiene "proyecto", no es spam aunque cumpla la anterior condicion
+     */
+    private boolean spamSearch(MailItem mail){
+        Boolean spamFound = false;
+        String message = mail.getMessage();
+        if(message.contains("proyecto") == false){
+            if(message.contains("oferta") == true || message.contains("viagra") == true){
+                spamFound = true;
+            }
+        }
+        return spamFound;
+    }
 }
