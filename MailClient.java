@@ -14,9 +14,11 @@ public class MailClient
     // Almacena el ultimo MailItem descargado del servidor
     private MailItem lastMail = null;
     // Contadores para estadisticas: enviados, recibidos y spam
-    private int enviados, recibidos, sonSpam;
+    private int enviados = 0, recibidos = 0, sonSpam = 0;
     // Almacena el usuario que te ha enviado el mensaje de mail mas largo
     private String explayador;
+    // Almacena el tamaño del mensaje mas largo
+    private int longCadena = 0;
 
     /**
      * Constructor for objects of class MailClient
@@ -46,6 +48,13 @@ public class MailClient
                 lastMail = temp;
             }else{
                 temp = null;
+                sonSpam += 1;
+            }
+            recibidos += 1;
+            String cad = temp.getMessage();
+            if(cad.length() > longCadena){
+                longCadena = cad.length();
+                explayador = temp.getFrom();
             }
         }
         return temp;
@@ -65,6 +74,13 @@ public class MailClient
                 mailTemporal.printMailItem();
             }else{
                 System.out.println("Siento comunicarle que este mail contenia spam y se ha descartado");
+                sonSpam += 1;
+            }
+            recibidos += 1;
+            String cad = mailTemporal.getMessage();
+            if(cad.length() > longCadena){
+                longCadena = cad.length();
+                explayador = mailTemporal.getFrom();
             }
         }else{
             System.out.println("No hay nuevos Mensajes :(");
@@ -89,6 +105,7 @@ public class MailClient
     {
         MailItem correoNuevo = new MailItem(user, para, asunto, mensaje);
         server.post(correoNuevo);
+        enviados += 1;
     }
     
     /**
@@ -113,6 +130,16 @@ public class MailClient
             String message = "Mensaje automatico.\nTardare en responder, estoy de vacaciones.\n\nMensaje que me enviaste:\n" + tempReceived.getMessage();
             MailItem correoNuevo = new MailItem(user, to, subject, message);
             server.post(correoNuevo);
+            recibidos += 1;
+            String cad = tempReceived.getMessage();
+            if(cad.length() > longCadena){
+                longCadena = cad.length();
+                explayador = tempReceived.getFrom();
+            }
+            enviados += 1;
+            if(spamSearch(tempReceived)){
+                sonSpam += 1;
+            }
         }
     }
     
@@ -138,13 +165,13 @@ public class MailClient
     public void estadisticas(){
         System.out.println(String.format("Has enviado %d mensajes", enviados));
         System.out.println(String.format("Has recibido %d mensajes", recibidos));
-        System.out.print(String.format("De ellos, %d son spam (", sonSpam));
         if(recibidos != 0){
-            System.out.print(String.format("%d", (sonSpam / recibidos)));
+            float porceSpam = (((sonSpam * 1.0F) / recibidos) * 100.0F);
+            System.out.print(String.format("De ellos, %d son spam (%f", sonSpam, porceSpam));
+            System.out.print("%)\n");
         }else{
-            System.out.print("0");
+            System.out.println("De ellos, ninguno ha sido spam (0%)");
         }
-        System.out.print("%" + ")\n");
         if(explayador != null){
             System.out.println(String.format("El usuario %s te ha enviado el mensaje mas largo", explayador));
         }else{
