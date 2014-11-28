@@ -10,6 +10,7 @@ public class MailClient
     // instance variables - replace the example below with your own
     private MailServer server;
     private String user;
+    private MailItem lastMail;
 
     /**
      * Constructor for objects of class MailClient
@@ -33,7 +34,11 @@ public class MailClient
      */
     public MailItem getNextMailItem()
     {
-        return server.getNextMailItem(user);
+        MailItem temp = server.getNextMailItem(user);
+        if(temp != null){
+            lastMail = temp;
+        }
+        return temp;
     }
     
     /**
@@ -45,6 +50,7 @@ public class MailClient
     {
         MailItem mailTemporal = server.getNextMailItem(user);
         if(mailTemporal != null){
+            lastMail = mailTemporal;
             mailTemporal.printMailItem();
         }else{
             System.out.println("No hay nuevos Mensajes :(");
@@ -76,6 +82,7 @@ public class MailClient
     {
         MailItem tempReceived = server.getNextMailItem(user);
         if (tempReceived != null){
+            lastMail = tempReceived;
             String to = tempReceived.getFrom();
             String subject = "RE: " + tempReceived.getSubject();
             String message = "Mensaje automatico.\nTardare en responder, estoy de vacaciones.\n\nMensaje que me enviaste:\n" + tempReceived.getMessage();
