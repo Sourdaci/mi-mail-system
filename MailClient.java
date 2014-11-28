@@ -13,6 +13,10 @@ public class MailClient
     private String user;
     // Almacena el ultimo MailItem descargado del servidor
     private MailItem lastMail = null;
+    // Contadores para estadisticas: enviados, recibidos y spam
+    private int enviados, recibidos, sonSpam;
+    // Almacena el usuario que te ha enviado el mensaje de mail mas largo
+    private String explayador;
 
     /**
      * Constructor for objects of class MailClient
