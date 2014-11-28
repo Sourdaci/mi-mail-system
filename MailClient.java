@@ -49,6 +49,7 @@ public class MailClient
             if(!spamSearch(temp)){
                 lastMail = temp;
             }else{
+                lastSpam = temp;
                 temp = null;
                 sonSpam += 1;
             }
@@ -75,6 +76,7 @@ public class MailClient
                 lastMail = mailTemporal;
                 mailTemporal.printMailItem();
             }else{
+                lastSpam = mailTemporal;
                 System.out.println("Siento comunicarle que este mail contenia spam y se ha descartado");
                 sonSpam += 1;
             }
@@ -152,6 +154,7 @@ public class MailClient
             enviados += 1;
             if(spamSearch(tempReceived)){
                 sonSpam += 1;
+                lastSpam = tempReceived;
             }
         }
     }
@@ -164,8 +167,8 @@ public class MailClient
     private boolean spamSearch(MailItem mail){
         Boolean spamFound = false;
         String message = mail.getMessage();
-        if(message.contains("proyecto") == false){
-            if(message.contains("oferta") == true || message.contains("viagra") == true){
+        if(message.toLowerCase().contains("proyecto") == false){
+            if(message.toLowerCase().contains("oferta") == true || message.toLowerCase().contains("viagra") == true){
                 spamFound = true;
             }
         }
