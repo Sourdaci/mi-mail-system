@@ -131,4 +131,24 @@ public class MailClient
         }
         return spamFound;
     }
+    
+    /**
+     * Muestra las estadisticas de la cuenta de correo
+     */
+    public void estadisticas(){
+        System.out.println(String.format("Has enviado %d mensajes", enviados));
+        System.out.println(String.format("Has recibido %d mensajes", recibidos));
+        System.out.print(String.format("De ellos, %d son spam (", sonSpam));
+        if(recibidos != 0){
+            System.out.print(String.format("%d", (sonSpam / recibidos)));
+        }else{
+            System.out.print("0");
+        }
+        System.out.print("%" + ")\n");
+        if(explayador != null){
+            System.out.println(String.format("El usuario %s te ha enviado el mensaje mas largo", explayador));
+        }else{
+            System.out.println(String.format("No hay usuario con mensaje mas largo porque no hay mensajes recibidos"));
+        }
+    }
 }
