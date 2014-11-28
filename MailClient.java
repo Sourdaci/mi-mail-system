@@ -124,6 +124,17 @@ public class MailClient
     }
     
     /**
+     * Crea un nuevo mensaje y lo envia simulando errores de transmision
+     */
+    public void sendMailItemWithTransmissionError(String para, String asunto, String mensaje){
+        mensaje = mensaje.replace("a", "#&");
+        mensaje = mensaje.replace("e", "$#");
+        MailItem correoNuevo = new MailItem(user, para, asunto, mensaje);
+        server.post(correoNuevo);
+        enviados += 1;
+    }
+    
+    /**
      * Pregunta al servidor cuantos mails tiene el usuario por leer
      */
     public void getUnreadMessages()
