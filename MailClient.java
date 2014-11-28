@@ -7,10 +7,12 @@
  */
 public class MailClient
 {
-    // instance variables - replace the example below with your own
+    // Servidor de correo asociado al cliente
     private MailServer server;
+    // Nombre de usuario del cliente
     private String user;
-    private MailItem lastMail;
+    // Almacena el ultimo MailItem descargado del servidor
+    private MailItem lastMail = null;
 
     /**
      * Constructor for objects of class MailClient
@@ -54,6 +56,17 @@ public class MailClient
             mailTemporal.printMailItem();
         }else{
             System.out.println("No hay nuevos Mensajes :(");
+        }
+    }
+    
+    /**
+     * Muestra el ultimo mensaje que has descargado del servidor
+     */
+    public void printLastMail(){
+        if(lastMail != null){
+            lastMail.printMailItem();
+        }else{
+            System.out.println("No hay ultimo mensaje recibido");
         }
     }
     
