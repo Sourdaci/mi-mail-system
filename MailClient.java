@@ -19,6 +19,8 @@ public class MailClient
     private String explayador;
     // Almacena el tamaño del mensaje mas largo
     private int longCadena = 0;
+    // Almacena el ultimo mensaje de spam recibido
+    private MailItem lastSpam = null;
 
     /**
      * Constructor for objects of class MailClient
@@ -95,6 +97,17 @@ public class MailClient
             lastMail.printMailItem();
         }else{
             System.out.println("No hay ultimo mensaje recibido");
+        }
+    }
+    
+    /**
+     * Muestra el ultimo mensaje SPAM que has descargado del servidor
+     */
+    public void printLastSpam(){
+        if(lastSpam != null){
+            lastSpam.printMailItem();
+        }else{
+            System.out.println("No hay ultimo SPAM recibido");
         }
     }
     
