@@ -46,7 +46,8 @@ public class MailClient
     {
         MailItem temp = server.getNextMailItem(user);
         if(temp != null){
-            if(!spamSearch(temp)){
+            String cad = temp.getMessage();
+            if(!spamSearch(cad)){
                 lastMail = temp;
             }else{
                 lastSpam = temp;
@@ -54,7 +55,6 @@ public class MailClient
                 sonSpam += 1;
             }
             recibidos += 1;
-            String cad = temp.getMessage();
             if(cad.length() > longCadena){
                 longCadena = cad.length();
                 explayador = temp.getFrom();
@@ -72,7 +72,8 @@ public class MailClient
     {
         MailItem mailTemporal = server.getNextMailItem(user);
         if(mailTemporal != null){
-            if(!spamSearch(mailTemporal)){
+            String cad = mailTemporal.getMessage();
+            if(!spamSearch(cad)){
                 lastMail = mailTemporal;
                 mailTemporal.printMailItem();
             }else{
@@ -81,7 +82,6 @@ public class MailClient
                 sonSpam += 1;
             }
             recibidos += 1;
-            String cad = mailTemporal.getMessage();
             if(cad.length() > longCadena){
                 longCadena = cad.length();
                 explayador = mailTemporal.getFrom();
@@ -164,7 +164,7 @@ public class MailClient
                 explayador = tempReceived.getFrom();
             }
             enviados += 1;
-            if(spamSearch(tempReceived)){
+            if(spamSearch(cad)){
                 sonSpam += 1;
                 lastSpam = tempReceived;
             }
@@ -176,9 +176,8 @@ public class MailClient
      * Si tiene "oferta" o "viagra", es spam
      * Si tiene "proyecto", no es spam aunque cumpla la anterior condicion
      */
-    private boolean spamSearch(MailItem mail){
+    private boolean spamSearch(String message){
         Boolean spamFound = false;
-        String message = mail.getMessage();
         if(message.toLowerCase().contains("proyecto") == false){
             if(message.toLowerCase().contains("oferta") == true || message.toLowerCase().contains("viagra") == true){
                 spamFound = true;
