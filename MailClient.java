@@ -70,21 +70,21 @@ public class MailClient
      */
     public void printNextMailItem()
     {
-        MailItem mailTemporal = server.getNextMailItem(user);
-        if(mailTemporal != null){
-            String cad = mailTemporal.getMessage();
+        MailItem temp = server.getNextMailItem(user);
+        if(temp != null){
+            String cad = temp.getMessage();
             if(!spamSearch(cad)){
-                lastMail = mailTemporal;
-                mailTemporal.printMailItem();
+                lastMail = temp;
+                temp.printMailItem();
             }else{
-                lastSpam = mailTemporal;
+                lastSpam = temp;
                 System.out.println("Siento comunicarle que este mail contenia spam y se ha descartado");
                 sonSpam += 1;
             }
             recibidos += 1;
             if(cad.length() > longCadena){
                 longCadena = cad.length();
-                explayador = mailTemporal.getFrom();
+                explayador = temp.getFrom();
             }
         }else{
             System.out.println("No hay nuevos Mensajes :(");
@@ -149,24 +149,24 @@ public class MailClient
      */
     public void getNextMailItemAndAutorespond()
     {
-        MailItem tempReceived = server.getNextMailItem(user);
-        if (tempReceived != null){
-            lastMail = tempReceived;
-            String to = tempReceived.getFrom();
-            String subject = "RE: " + tempReceived.getSubject();
-            String message = "Mensaje automatico.\nTardare en responder, estoy de vacaciones.\n\nMensaje que me enviaste:\n" + tempReceived.getMessage();
+        MailItem temp = server.getNextMailItem(user);
+        if (temp != null){
+            lastMail = temp;
+            String to = temp.getFrom();
+            String subject = "RE: " + temp.getSubject();
+            String message = "Mensaje automatico.\nTardare en responder, estoy de vacaciones.\n\nMensaje que me enviaste:\n" + temp.getMessage();
             MailItem correoNuevo = new MailItem(user, to, subject, message);
             server.post(correoNuevo, message.length());
             recibidos += 1;
-            String cad = tempReceived.getMessage();
+            String cad = temp.getMessage();
             if(cad.length() > longCadena){
                 longCadena = cad.length();
-                explayador = tempReceived.getFrom();
+                explayador = temp.getFrom();
             }
             enviados += 1;
             if(spamSearch(cad)){
                 sonSpam += 1;
-                lastSpam = tempReceived;
+                lastSpam = temp;
             }
         }
     }
@@ -178,8 +178,8 @@ public class MailClient
      */
     private boolean spamSearch(String message){
         Boolean spamFound = false;
-        if(message.toLowerCase().contains("proyecto") == false){
-            if(message.toLowerCase().contains("oferta") == true || message.toLowerCase().contains("viagra") == true){
+        if(!message.toLowerCase().contains("proyecto")){
+            if(message.toLowerCase().contains("oferta") || message.toLowerCase().contains("viagra")){
                 spamFound = true;
             }
         }
