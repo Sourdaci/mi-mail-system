@@ -18,7 +18,9 @@ public class MailClient
     // Almacena el usuario que te ha enviado el mensaje de mail mas largo
     private String explayador;
     // Almacena el tamaño del mensaje mas largo
-    private int longCadena = 0;
+	// Se inicializa a -1 porque puedes recibir un mail sin mensaje pero con archivos adjuntos
+	// Implementar en MailItem no calificados como Spam
+    private int longCadena = -1;
     // Almacena el ultimo mensaje de spam recibido
     private MailItem lastSpam = null;
 
@@ -49,16 +51,13 @@ public class MailClient
             String cad = temp.getMessage();
             if(!spamSearch(cad)){
                 lastMail = temp;
+				enviadoMasLargo(cad.length(), temp.getFrom());
             }else{
                 lastSpam = temp;
                 temp = null;
                 sonSpam += 1;
             }
             recibidos += 1;
-            if(cad.length() > longCadena){
-                longCadena = cad.length();
-                explayador = temp.getFrom();
-            }
         }
         return temp;
     }
@@ -76,16 +75,13 @@ public class MailClient
             if(!spamSearch(cad)){
                 lastMail = temp;
                 temp.printMailItem();
+				enviadoMasLargo(cad.length(), temp.getFrom());
             }else{
                 lastSpam = temp;
                 System.out.println("Siento comunicarle que este mail contenia spam y se ha descartado");
                 sonSpam += 1;
             }
             recibidos += 1;
-            if(cad.length() > longCadena){
-                longCadena = cad.length();
-                explayador = temp.getFrom();
-            }
         }else{
             System.out.println("No hay nuevos Mensajes :(");
         }
@@ -159,15 +155,13 @@ public class MailClient
             server.post(correoNuevo, message.length());
             recibidos += 1;
             String cad = temp.getMessage();
-            if(cad.length() > longCadena){
-                longCadena = cad.length();
-                explayador = temp.getFrom();
-            }
             enviados += 1;
             if(spamSearch(cad)){
                 sonSpam += 1;
                 lastSpam = temp;
-            }
+            }else{
+				enviadoMasLargo(cad.length(), to);
+			}
         }
     }
     
@@ -186,6 +180,17 @@ public class MailClient
         return spamFound;
     }
     
+	/**
+	* Calcula si el mail recibido es el mas largo
+	* Si lo es, almacena su tamaño y quien lo ha enviado
+	*/
+	private void enviadoMasLargo(int longCadena, String from){
+		if(longCadena > this.longCadena){
+			this.longCadena = longCadena;
+			explayador = from;
+		}
+	}
+	
     /**
      * Muestra las estadisticas de la cuenta de correo
      */
